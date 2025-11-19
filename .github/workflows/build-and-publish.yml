@@ -1,0 +1,66 @@
+name: Build External CMake Library & Sync
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: macos-14
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v5
+        with:
+          repository: 'https://github.com/ClassicOldSong/moonlight-common-c'
+          path: 'source'
+
+      - name: Configure CMake project - ARM64 static library
+        working-directory: source/
+        run: |
+          cmake -B build \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF
+
+      - name: Build CMake project
+        working-directory: source/
+        run: |
+          cmake --build build --config Release
+
+      - name: Checkout current repository, compiler branch
+        uses: actions/checkout@v5
+        with:
+          ref: 'compiler'
+          path: 'wrapper'
+
+      - name: Checkout current repository, output branch
+        uses: actions/checkout@v5
+        with:
+          ref: 'main'
+          path: 'output'
+
+      # - name: Clean output folder
+      #   run: |
+      #     rm -rf output/*
+
+      - name: Organize content to output folder
+        run: |
+          cp source/build/*.a output/
+          cp wrapper/Package.swift output/
+
+      - name: Commit & push changes
+        working-directory: output/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          if git commit -m "Update external ARM static library"; then
+            echo "Changes committed."
+          else
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git push
