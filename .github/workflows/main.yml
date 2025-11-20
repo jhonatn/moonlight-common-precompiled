@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-and-publish:
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v5
@@ -43,7 +43,8 @@ jobs:
           cmake -B build-macos-arm64 \
             -DCMAKE_OSX_ARCHITECTURES=arm64 \
             -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=OFF
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
           cmake --build build-macos-arm64 --config Release
           cp build-macos-arm64/libmoonlight-common-c.a ../output/bin/libmoonlightcommon.macos-arm64.a
 
