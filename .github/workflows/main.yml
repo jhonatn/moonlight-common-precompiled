@@ -20,15 +20,6 @@ jobs:
           submodules: 'true'
           path: 'source'
 
-      - name: Prepare and build project - macOS ARM64
-        working-directory: source/
-        run: |
-          cmake -B build-macos-arm64 \
-            -DCMAKE_OSX_ARCHITECTURES=arm64 \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=OFF
-          cmake --build build-macos-arm64 --config Release
-
       - name: Checkout current repository, output branch
         uses: actions/checkout@v5
         with:
@@ -40,8 +31,14 @@ jobs:
         run: |
           git rm -rf .
 
-      - name: Organize content to output folder
+      - name: Prepare and build project - macOS ARM64
+        working-directory: source/
         run: |
+          cmake -B build-macos-arm64 \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF
+          cmake --build build-macos-arm64 --config Release
           cp source/build-macos-arm64/libmoonlight-common-c.a output/libmoonlightcommon.macos-arm64.a
 
       - name: Commit & push changes
