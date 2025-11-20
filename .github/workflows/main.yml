@@ -1,4 +1,4 @@
-name: Build External CMake Library & Sync
+name: Build external CMake library & publish as a branch
 
 on:
   workflow_dispatch:
