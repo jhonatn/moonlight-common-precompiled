@@ -10,7 +10,7 @@ jobs:
       - name: Checkout current repository
         uses: actions/checkout@v5
         with:
-          repository: 'https://github.com/ClassicOldSong/moonlight-common-c'
+          repository: 'ClassicOldSong/moonlight-common-c'
           path: 'source'
 
       - name: Configure CMake project - ARM64 static library
