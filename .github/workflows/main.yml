@@ -36,6 +36,7 @@ jobs:
       - name: Copy headers
         run: |
           find source/src/ -name '*.h' -exec cp -prv '{}' 'output/include/' ';'
+          find source/reedsolomon/ -name '*.h' -exec cp -prv '{}' 'output/include/' ';'
 
       - name: Prepare and build project - macOS ARM64
         working-directory: source/
