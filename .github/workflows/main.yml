@@ -32,7 +32,10 @@ jobs:
           git rm -rf .
           mkdir bin
           mkdir include
-          find ./source/src/ -name '*.h' -exec cp -prv '{}' '/output/include/' ';'
+
+      - name: Copy headers
+        run: |
+          find source/src/ -name '*.h' -exec cp -prv '{}' 'output/include/' ';'
 
       - name: Prepare and build project - macOS ARM64
         working-directory: source/
