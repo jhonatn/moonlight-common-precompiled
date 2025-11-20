@@ -32,7 +32,7 @@ jobs:
           git rm -rf .
           mkdir bin
           mkdir include
-          cp source/src/**/*.h output/include
+          find ./source/src/ -name '*.h' -exec cp -prv '{}' '/output/include/' ';'
 
       - name: Prepare and build project - macOS ARM64
         working-directory: source/
