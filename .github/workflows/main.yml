@@ -47,7 +47,8 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
           cmake --build build-macos-arm64 --config Release
-          cp build-macos-arm64/libmoonlight-common-c.a ../output/bin/libmoonlightcommon.macos-arm64.a
+          ls -la build-macos-arm64
+          libtool -static -o ../output/bin/libmoonlightcommon.macos-arm64.a build-macos-arm64/libmoonlight-common-c.a build-macos-arm64/enet/libenet.a
 
       - name: Commit & push changes
         working-directory: output/
