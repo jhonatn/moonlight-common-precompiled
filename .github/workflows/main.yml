@@ -45,7 +45,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DBUILD_SHARED_LIBS=OFF
           cmake --build build-macos-arm64 --config Release
-          cp build-macos-arm64/libmoonlight-common-c.a output/bin/libmoonlightcommon.macos-arm64.a
+          cp build-macos-arm64/libmoonlight-common-c.a ../output/bin/libmoonlightcommon.macos-arm64.a
 
       - name: Commit & push changes
         working-directory: output/
